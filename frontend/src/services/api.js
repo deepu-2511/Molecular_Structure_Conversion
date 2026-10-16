@@ -1,0 +1,76 @@
+﻿const API_BASE_URL = "http://127.0.0.1:8010";
+
+async function handleResponse(response) {
+  const data = await response.json();
+
+  if (!response.ok) {
+    const message =
+      data?.detail?.error ||
+      data?.detail ||
+      "Request failed.";
+
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+
+export async function generateStructure(smiles) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/v1/structure/smiles/generate`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+
+      body: JSON.stringify({
+        smiles: smiles.trim(),
+      }),
+    }
+  );
+
+  return handleResponse(response);
+}
+
+
+export async function generateIUPACStructure(name) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/v1/structure/iupac/generate`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+
+      body: JSON.stringify({
+        name: name.trim(),
+      }),
+    }
+  );
+
+  return handleResponse(response);
+}
+
+
+export function getFileUrl(path) {
+  if (!path) {
+    return "";
+  }
+
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://")
+  ) {
+    return path;
+  }
+
+  return `${API_BASE_URL}${path}`;
+}
+
+
