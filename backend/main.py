@@ -58,6 +58,7 @@ app.add_middleware(
         "http://127.0.0.1:5175",
         "http://localhost:5176",
         "http://127.0.0.1:5176",
+        "https://molecular-structure-conversion.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -596,5 +597,6 @@ def get_structure_json(job_id: str):
         filename="metadata.json",
         media_type="application/json",
     )
+
 
 
